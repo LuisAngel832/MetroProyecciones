@@ -20,7 +20,7 @@
     width: 30px;
     height: 30px;
     margin: 2px;
-    background-color: #005E7C;
+    background-color: #001242;
     color: white;
     border: none;
     border-radius: 5px;
@@ -34,4 +34,12 @@
 
 .seat.selected {
     background-color: #c0392b; /* Color para asiento seleccionado */
+}
+
+img{
+    color: white;
+}
+
+.pantalla{
+    width: 400px;
 }

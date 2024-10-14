@@ -4,7 +4,8 @@ import RegistrarFuncion from '../paginas/RegistrarFuncion';
 import Gestiondeboletos from '../Paginas/Gestiondeboletos';
 import Estadisticas from '../Paginas/Estadisticas';
 import DatosHistoricos from '../Paginas/DatosHistoricos';
-
+import FuncionesRegistradas from '../Paginas/FuncionesRegistradas';
+import CancelarFuncion from '../Paginas/CancelarFuncion';
 const AppRouter = () => {
   return (
     <Router>
@@ -14,6 +15,8 @@ const AppRouter = () => {
         <Route path="/gestion-de-boletos" element={<Gestiondeboletos/>} />
         <Route path="/Estadisticas" element={<Estadisticas/>}/>
         <Route path="/Datos-Historicos" element={<DatosHistoricos/>}/>
+        <Route path="/funciones-registradas" element={<FuncionesRegistradas/>}/>
+        <Route path="/cancelar-funcion" element={<CancelarFuncion/>}/>
       </Routes>
     </Router>
   );
