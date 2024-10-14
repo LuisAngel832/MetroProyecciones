@@ -1,5 +1,5 @@
 import '../../assets/css/confirmacionDeFuncion.css'
-const ConfirmacionDeFuncion = ({
+const FuncionesRegistradasDetalles = ({
     nombreFuncion,
     costoBoleto,
     Horario,
@@ -47,4 +47,4 @@ const ConfirmacionDeFuncion = ({
     )
 }
 
-export default ConfirmacionDeFuncion
+export default FuncionesRegistradasDetalles
