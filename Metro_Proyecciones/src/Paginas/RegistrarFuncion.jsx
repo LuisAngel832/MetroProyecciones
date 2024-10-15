@@ -113,6 +113,13 @@ const RegistrarFuncion = () => {
                         </div>
                         
                     </fieldset>
+                        <input 
+                            name="fecha" 
+                            type="date" 
+                            className='input-text-fecha'
+                        />
+                                          
+                    </fieldset> 
 
                     <fieldset className='registro-funcion-form-horario'>
                         <label>Horario</label>

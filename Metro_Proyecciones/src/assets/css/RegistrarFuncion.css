@@ -180,6 +180,7 @@ label{
     justify-content: space-between;
 }
 
+<<<<<<< Updated upstream
 .funciones-mostrar-funciones{
     position: relative;
 
@@ -222,4 +223,8 @@ label{
     display: flex;
     width: 100%;
     justify-content: space-between;
+=======
+.input-text-fecha{
+    width: 150px;
+>>>>>>> Stashed changes
 }
