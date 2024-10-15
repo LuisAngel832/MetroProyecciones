@@ -36,18 +36,19 @@
 
 .seat-controls {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* Centra los botones en relación con el texto "Número de Asientos" */
     gap: 10px;
-    margin: 10px 0;
+    margin-top: 10px;
+    margin-left: -300px; /* Ajusta la posición un poco hacia la izquierda */
 }
-
 .seat-controls button {
     background-color: #005E7C;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 40px; /* Aumentamos el padding horizontal para hacerlos más largos */
     cursor: pointer;
     border-radius: 5px;
+    font-size: 1rem; /* Mantener el tamaño de la fuente actual */
 }
 
 .seat-controls button:hover {

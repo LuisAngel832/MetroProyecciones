@@ -17,7 +17,7 @@
     background-color: #001242;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 
 .box-contenido{
@@ -39,7 +39,7 @@
     background-color: #001242;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 fieldset{
@@ -56,18 +56,22 @@ label{
     border-radius: 10px;
     text-align: center;
     background-color: white;
-    font-size: 2rem;
+    font-size: 1.7rem;
     color: #000022;
 }
 
 .registro-funcion-form-nombre{
-    display: flex;
+    font-size: 1.7rem;
     margin-bottom: 20px;
+    align-items: center;
+    display: flex;
+    position: relative;
+    max-height: 50px;
 }
 
-.input-text-nombre{
-    width: 100%;
-}
+
+
+
 
 .registro-funcion-form-fecha{
     display: flex;
@@ -78,7 +82,7 @@ label{
 
 .registro-funcion-form-fecha input{
     font-size: 2rem;
-    width: 100px;
+    width: 300px;
     height: 52px;
     background-color: #005E7C;
     text-align: center;
@@ -173,5 +177,49 @@ label{
 
 .cancelar-funcion-botones{
     display: flex;
+    justify-content: space-between;
+}
+
+.funciones-mostrar-funciones{
+    position: relative;
+
+}
+
+.datalist-opciones {
+    position: absolute;
+    top: 60px; /* Ajusta la distancia desde el input */
+    left: 0;
+    width: 100%;
+    background-color: white; /* Fondo blanco para la lista */
+    z-index: 2; /* Mantener la lista sobre otros elementos */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    max-height: 200px; /* Limitar la altura máxima */
+    overflow-y: auto; /* Hacer scroll si hay demasiadas opciones */
+}
+
+.lista-funciones{
+    position: absolute;
+    width: 300px;
+    max-height: 250px;
+    overflow-y: auto;
+    background-color: white;
+    
+}
+
+.input-text-nombre{
+    width: 100%;
+    z-index: 1; 
+}
+
+.input-funciones-registradas{
+    width: 300px;
+    background-color: white;
+        
+}
+
+.pelicularRegistradas{
+    display: flex;
+    width: 100%;
     justify-content: space-between;
 }

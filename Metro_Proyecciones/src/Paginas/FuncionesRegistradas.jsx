@@ -17,6 +17,20 @@ const FuncionesRegistradas = () => {
     setMostrarDetalles(false);
   };
 
+  const RenglonFuncion = ({nombreFuncion,boletosVendidos, dineroRecuadado, porcentajeOcupacion, estado}) =>{
+    return(
+      <>
+      <tr>
+        <td><div className='tabla-detalles-id' ><button onClick={mostrarDetallesFuncion} class="btn">DETALLES</button> {nombreFuncion} <br/>050240256</div></td>
+        <td>{boletosVendidos}</td>
+        <td>{dineroRecuadado}</td>
+        <td>{porcentajeOcupacion}</td>
+        <td>{estado}</td>
+      </tr>
+      </>
+    )
+  }
+
   return (
     <>
       <MiniMenuRegistrarFunciones />
@@ -39,27 +53,8 @@ const FuncionesRegistradas = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><div className='tabla-detalles-id' ><button onClick={mostrarDetallesFuncion} class="btn">DETALLES</button> The Godfather <br/>050240256</div></td>
-                    <td>20</td>
-                    <td>2050</td>
-                    <td>20.2%</td>
-                    <td>PROGRAMADA</td>
-                </tr>
-                <tr>
-                    <td><div className='tabla-detalles-id' ><button onClick={mostrarDetallesFuncion} class="btn">DETALLES</button> The Godfather <br/>050240256</div></td>
-                    <td>20</td>
-                    <td>2050</td>
-                    <td>20.2%</td>
-                    <td>FINALIZADA</td>
-                </tr>
-                <tr>
-                    <td><div className='tabla-detalles-id' ><button onClick={mostrarDetallesFuncion} class="btn">DETALLES</button> The Godfather <br/>050240256</div></td> 
-                    <td>20</td>
-                    <td>2050</td>
-                    <td>20.2%</td>
-                    <td>PROGRAMADA</td>
-                </tr>
+                
+               
       
             </tbody>
         </table>

@@ -1,72 +1,86 @@
-import Header from '../Conponentes/header'
-import './../assets/css/RegistrarFuncion.css'
-import ConfirmacionDeFuncion from '../Conponentes/CreacionDeFunciones/ConfirmacionDeFuncion'
-import { useState } from 'react'
-import MiniMenuRegistrarFunciones from '../Conponentes//MiniMenuRegistrarFunciones'
-import { Link } from 'react-router-dom'
+import Header from '../Conponentes/header';
+import './../assets/css/RegistrarFuncion.css';
+import ConfirmacionDeFuncion from '../Conponentes/CreacionDeFunciones/ConfirmacionDeFuncion';
+import { useState } from 'react';
+import MiniMenuRegistrarFunciones from '../Conponentes//MiniMenuRegistrarFunciones';
+import { Link } from 'react-router-dom';
 
 const RegistrarFuncion = () => {
-    const [confirmacion, setConfirmacion] = useState(false)
-    const [nombreFuncion, setNombreFuncion] = useState('')
-    const [fechaDia, setFechaDia] = useState('')
-    const [fechaMes, setFechaMes] = useState('')
-    const [fechaAno, setFechaAno] = useState('')
-    const [horario, setHorario] = useState('')
-    const [boleto, setBoleto] = useState('')
-    const [duracion, setDuracion] = useState('')
+    const [confirmacion, setConfirmacion] = useState(false);
+    const [nombreFuncion, setNombreFuncion] = useState('');
+    const [fechaDia, setFechaDia] = useState('');
+    const [fechaMes, setFechaMes] = useState('');
+    const [fechaAno, setFechaAno] = useState('');
+    const [horario, setHorario] = useState('');
+    const [boleto, setBoleto] = useState('');
+    const [duracion, setDuracion] = useState('');
+    const [mostrarFunciones, setMostrarFunciones] = useState(false);
+
+    const funcionesDisponibles = [
+        "Avatar",
+        "Titanic",
+        "Inception",
+        "The Matrix",
+        "Toy Story",
+        "The Avengers"
+    ];
 
     const handleClickConfirmacion = (e) => {
-        e.preventDefault()
-        setConfirmacion(!confirmacion)
+        e.preventDefault();
+        setConfirmacion(!confirmacion);
 
-        setNombreFuncion('')
-        setFechaDia('')
-        setFechaMes('')
-        setFechaAno('')
-        setHorario('')
-        setBoleto('')
-        setDuracion('')
-    }
+        setNombreFuncion('');
+        setFechaDia('');
+        setFechaMes('');
+        setFechaAno('');
+        setHorario('');
+        setBoleto('');
+        setDuracion('');
+    };
 
     const handleClickCancelar = (e) => {
-        e.preventDefault()
-        setConfirmacion(!confirmacion)
-        console.log("Función Cancelada")
-    }
+        e.preventDefault();
+        setConfirmacion(!confirmacion);
+        console.log("Función Cancelada");
+    };
 
     const handleChangeNombre = (e) => {
-        setNombreFuncion(e.target.value)
-    }
-
-    const handleChangeFechaDia = (e) => {
-        setFechaDia(e.target.value)
-    }
-
-    const handleChangeFechaMes = (e) => {
-        setFechaMes(e.target.value)
-    }
-
-    const handleChangeFechaAno = (e) => {
-        setFechaAno(e.target.value)
-    }
+        setNombreFuncion(e.target.value);
+    };
 
     const handleClickHorario = (e) => {
-        setHorario(e.target.innerText)
-        console.log(e.target.innerText)
-    }
+        setHorario(e.target.innerText);
+        console.log(e.target.innerText);
+    };
 
     const handleChangeBoleto = (e) => {
-        setBoleto(e.target.value)
-    }
+        setBoleto(e.target.value);
+    };
 
     const handleChangeDuracion = (e) => {
-        setDuracion(e.target.value)
-    }
+        setDuracion(e.target.value);
+    };
 
-    const handelClick = (e) => {
-        e.preventDefault()
-        setConfirmacion(!confirmacion)
-    }
+    const handleClick = (e) => {
+        e.preventDefault();
+        setConfirmacion(!confirmacion);
+    };
+
+    const handleMostrarFunciones = (e) => {
+        e.preventDefault();
+        setMostrarFunciones(!mostrarFunciones);
+    };
+
+    const FuncionesRegistradas = () => {
+        return (
+            <div className='lista-funciones'>
+                <input type="text" value="la mancha" className='input-text input-text-nombre' />
+                <input type="text" value="la mancha" className='input-text input-text-nombre' />
+                <input type="text" value="la mancha" className='input-text input-text-nombre' />
+                <input type="text" value="la mancha" className='input-text input-text-nombre' />
+            </div>
+        );
+    };
 
     return (
         <>
@@ -75,41 +89,30 @@ const RegistrarFuncion = () => {
             <section className='registro-funcion'>
                 <form className='registro-funcion-form'>
                     <fieldset className='registro-funcion-form-nombre'>
-                        <label htmlFor="nombreFuncion">Nombre</label>
+                        <label htmlFor="nombreFuncion">Nombre Pelicula</label>
+
                         <input
                             onChange={handleChangeNombre}
                             value={nombreFuncion}
                             className='input-text input-text-nombre'
                             id="nombreFuncion"
                             type="text"
-                            placeholder="The GoodFather"
+                            placeholder="Nombre de la pelicula"
                         />
                     </fieldset>
 
                     <fieldset className='registro-funcion-form-fecha'>
                         <label htmlFor="fecha">Fecha</label>
-                        <input 
-                            name="fecha" 
-                            type="text" 
-                            className='input-text-fecha'
-                            value={fechaDia} 
-                            onChange={handleChangeFechaDia} 
-                        />
-                        <input 
-                            name="fecha" 
-                            type="text" 
-                            className='input-text-fecha'
-                            value={fechaMes} 
-                            onChange={handleChangeFechaMes} 
-                        />
-                        <input 
-                            name="fecha" 
-                            type="text" 
-                            className='input-text-fecha'
-                            value={fechaAno} 
-                            onChange={handleChangeFechaAno} 
-                        />                        
-                    </fieldset> 
+                        <div className='container-mostrar-funciones'>
+                        
+                            <div className='pelicularRegistradas'>
+                                <input type="date" className='input-fecha' />
+                                <input value="Mostrar Funciones" onClick={handleMostrarFunciones} type='button' className='input-funciones-registradas' />
+                                {mostrarFunciones ? <FuncionesRegistradas /> : <></>}
+                            </div>
+                        </div>
+                        
+                    </fieldset>
 
                     <fieldset className='registro-funcion-form-horario'>
                         <label>Horario</label>
@@ -121,11 +124,11 @@ const RegistrarFuncion = () => {
 
                     <fieldset className='registro-funcion-form-boleto'>
                         <label htmlFor="costoBoleto">Costo De Boleto</label>
-                        <input 
-                            onChange={handleChangeBoleto} 
-                            value={boleto} 
-                            id="costoBoleto" 
-                            type="text" 
+                        <input
+                            onChange={handleChangeBoleto}
+                            value={boleto}
+                            id="costoBoleto"
+                            type="text"
                             className='input-text'
                         />
                     </fieldset>
@@ -134,7 +137,7 @@ const RegistrarFuncion = () => {
                         <label htmlFor="duracion">Duración</label>
                         <input
                             onChange={handleChangeDuracion}
-                            value={duracion} 
+                            value={duracion}
                             id="duracion"
                             type="text"
                             className='input-text'
@@ -144,7 +147,7 @@ const RegistrarFuncion = () => {
 
                     <fieldset className='registro-funcion-form-submit'>
                         <Link to="/"><button>Cancelar</button></Link>
-                        <input type="submit" value="Siguiente" onClick={handelClick} />
+                        <input type="submit" value="Siguiente" onClick={handleClick} />
                     </fieldset>
                 </form>
             </section>
@@ -164,7 +167,7 @@ const RegistrarFuncion = () => {
                 <></>
             )}
         </>
-    )
-}
+    );
+};
 
-export default RegistrarFuncion
+export default RegistrarFuncion;

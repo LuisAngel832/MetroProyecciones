@@ -1,12 +1,15 @@
 .seat-map-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin-top: 40px; /* Aumenta el margen superior para mover el contenedor de asientos hacia abajo */
     gap: 10px;
 }
 
 .seat-row {
     display: flex;
     align-items: center;
+    margin-bottom: 10px; /* Separación entre las filas de asientos */
 }
 
 .seat-row-label {
@@ -36,10 +39,12 @@
     background-color: #c0392b; /* Color para asiento seleccionado */
 }
 
-img{
-    color: white;
+.pantalla {
+    width: 400px;
+    margin-bottom: 20px; /* Agrega espacio debajo de la pantalla */
 }
 
-.pantalla{
-    width: 400px;
+/* Mantén las imágenes con estos estilos si están presentes */
+img {
+    color: white;
 }

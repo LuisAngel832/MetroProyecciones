@@ -10,32 +10,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ConfirmationScreen from '../Conponentes/ConfirmationScreen';
 
 const Gestiondeboletos = () => {
-    const [selectedShow, setSelectedShow] = useState(null);
-    const [selectedSeats, setSelectedSeats] = useState([]); 
-    const [seatCount, setSeatCount] = useState(0);
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [showCalendar, setShowCalendar] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [searchQuery, setSearchQuery] = useState(''); 
-    const [selectedDate, setSelectedDate] = useState(null); 
-    const ticketPrice = 50.00;
+    const [selectedSeats, setSelectedSeats] = useState([]); // Asientos seleccionados solo para cambiar el color, no para contar
 
     const shows = [
         { title: 'The Roblox', date: '11-10-2024', time: '16:00 PM', availableSeats: 20 },
         { title: 'The Furros', date: '12-10-2024', time: '19:00 PM', availableSeats: 48 },
         { title: 'The Zotopia', date: '14-10-2024', time: '10:00 AM', availableSeats: 50 },
     ];
-
-    
-    const filteredShows = shows.filter(show => {
-        const matchesTitle = show.title.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesDate = selectedDate ? show.date === selectedDate.toLocaleDateString('en-GB') : true;
-        return matchesTitle && matchesDate;
-    });
-
-    const handleSeatChange = (delta) => {
-        setSeatCount(Math.max(0, seatCount + delta));
-    };
 
     const toggleSearchBar = () => {
         setShowSearchBar(!showSearchBar);
@@ -46,19 +30,10 @@ const Gestiondeboletos = () => {
     };
 
     const handleNextClick = () => {
-        if (selectedShow && selectedSeats.length > 0) { 
-            setShowConfirmation(true);
-        } else {
-            alert("Seleccione una función y al menos un asiento.");
-        }
+        setShowConfirmation(true);
     };
 
     const handleBack = () => {
-        setShowConfirmation(false);
-    };
-
-    const handleConfirm = () => {
-        alert('Compra confirmada');
         setShowConfirmation(false);
     };
 
@@ -70,6 +45,7 @@ const Gestiondeboletos = () => {
             </div>
             <section className='gestion-boletos'>
                 <div className='gestion-boletos-contenido'>
+                    {/* Cartelera visual sin funcionalidad */}
                     <div className="gestion-boletos-showlist">
                         <div className="showlist-filters">
                             <button className="filter-button" onClick={toggleSearchBar}>Buscar Título</button>
@@ -80,48 +56,58 @@ const Gestiondeboletos = () => {
                                 type="text" 
                                 className="search-bar" 
                                 placeholder="Ingrese el título..." 
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)} 
                             />
                         )}
                         {showCalendar && (
                             <div className="datepicker-container">
                                 <DatePicker 
-                                    selected={selectedDate}
-                                    onChange={(date) => setSelectedDate(date)} 
+                                    selected={null}
+                                    onChange={(date) => console.log('Fecha seleccionada:', date)} 
                                     inline
                                 />
                             </div>
                         )}
                         <ShowList 
-                            shows={filteredShows} 
-                            selectedShow={selectedShow} 
-                            setSelectedShow={setSelectedShow} 
+                            shows={shows} 
+                            selectedShow={null} 
+                            setSelectedShow={() => {}} // No se hace selección de funciones
                         />
                     </div>
 
+                    {/* Selección de asientos */}
                     <div className="gestion-boletos-seat-selection-container">
                         <div className="seat-selection-info">
+                            {/* Número de asientos y precio en la misma fila */}
                             <div className="seat-selection-header">
-                                <h2>Número de Asientos: {selectedSeats.length}</h2>
-                                <h2>Precio del Boleto: ${(selectedSeats.length * ticketPrice).toFixed(2)}</h2>
+                                <h2>Número de Asientos:</h2>
+                                <h2 style={{ marginLeft: 'auto' }}>Precio del Boleto:</h2> {/* Alineado a la derecha */}
                             </div>
-                            <SeatMap selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />
+                            {/* Botones de control de asientos */}
+                            <div className='seat-controls'>
+                                <button disabled>-</button> {/* Botones sin funcionalidad */}
+                                <button disabled>+</button>
+                            </div>
+                            {/* Mapa de asientos, mantiene el cambio de color */}
+                            <SeatMap 
+                                selectedSeats={selectedSeats} 
+                                setSelectedSeats={setSelectedSeats} 
+                            />
                         </div>
                     </div>
                 </div>
                 <ActionButtons onNext={handleNextClick} />
             </section>
 
+            {/* Ventana de confirmación sin datos */}
             {showConfirmation && (
                 <ConfirmationScreen
-                    title={selectedShow?.title || "Función no seleccionada"}
-                    seats={selectedSeats}
-                    time={selectedShow?.time || "Hora no disponible"}
-                    total={(selectedSeats.length * ticketPrice).toFixed(2)}
-                    codes={selectedSeats.map((seat, index) => `050505505${index + 1}`)}
-                    onBack={handleBack}
-                    onConfirm={handleConfirm}
+                    title={"Función no seleccionada"} 
+                    seats={[]} 
+                    time={"Hora no disponible"} 
+                    total={"$0.00"} 
+                    codes={["Sin código"]}
+                    onBack={handleBack} 
+                    onConfirm={() => alert('Compra confirmada')} 
                 />
             )}
         </>
@@ -129,4 +115,3 @@ const Gestiondeboletos = () => {
 };
 
 export default Gestiondeboletos;
-
