@@ -143,7 +143,7 @@ const RegistrarFuncion = () => {
                             className='input-text'
                         />
                         <span>Min</span>
-                    </fieldset>
+                    </fieldset>juan
 
                     <fieldset className='registro-funcion-form-submit'>
                         <Link to="/"><button>Cancelar</button></Link>
