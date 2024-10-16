@@ -74,10 +74,11 @@ const RegistrarFuncion = () => {
     const FuncionesRegistradas = () => {
         return (
             <div className='lista-funciones'>
-                <input type="text" value="la mancha" className='input-text input-text-nombre' />
-                <input type="text" value="la mancha" className='input-text input-text-nombre' />
-                <input type="text" value="la mancha" className='input-text input-text-nombre' />
-                <input type="text" value="la mancha" className='input-text input-text-nombre' />
+                <button  value="la mancha" className='input-funciones' >la mancha</button>
+                <button  value="la mancha" className='input-funciones' >la mancha</button>
+                <button  value="la mancha" className='input-funciones' >la mancha</button>
+                <button  value="la mancha" className='input-funciones' >la mancha</button>
+                <button  value="la mancha" className='input-funciones' >la mancha</button>
             </div>
         );
     };
@@ -101,18 +102,27 @@ const RegistrarFuncion = () => {
                         />
                     </fieldset>
 
+
+
+
+                    
+
                     <fieldset className='registro-funcion-form-fecha'>
                         <label htmlFor="fecha">Fecha</label>
                         <div className='container-mostrar-funciones'>
-                        
-                            <div className='pelicularRegistradas'>
-                                <input type="date" className='input-fecha' />
+                            <input type="date" className='input-fecha' />
+                            <div className='funciones-registradas'>
                                 <input value="Mostrar Funciones" onClick={handleMostrarFunciones} type='button' className='input-funciones-registradas' />
                                 {mostrarFunciones ? <FuncionesRegistradas /> : <></>}
                             </div>
+                           
                         </div>
                         
                     </fieldset>
+                    
+
+
+
 
                     <fieldset className='registro-funcion-form-horario'>
                         <label>Horario</label>
@@ -143,7 +153,7 @@ const RegistrarFuncion = () => {
                             className='input-text'
                         />
                         <span>Min</span>
-                    </fieldset>juan
+                    </fieldset>
 
                     <fieldset className='registro-funcion-form-submit'>
                         <Link to="/"><button>Cancelar</button></Link>
