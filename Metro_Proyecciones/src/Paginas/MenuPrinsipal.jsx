@@ -1,5 +1,5 @@
 import './../assets/css/MenuPrinsipal.css';
-import imagen from '../assets/img/logo.png';
+import imagen from '../assets/img/Logo.png';
 import { Link } from 'react-router-dom';
 
 const MenuPrinsipal = () => {

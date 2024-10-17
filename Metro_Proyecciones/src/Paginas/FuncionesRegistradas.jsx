@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './../assets/css/FuncionesRegistradas.css'; 
 import Header from '../Conponentes/header'
-import Icon from '../Conponentes/Icon'
+import Icon from '../Conponentes/icon'
 import {faAmbulance, faMagnifyingGlass }from '@fortawesome/free-solid-svg-icons'
 import MiniMenuRegistrarFunciones from '../Conponentes//MiniMenuRegistrarFunciones'
 import RegistrarFuncionDetalles from '../Conponentes/CreacionDeFunciones/FuncionesRegistradasDetalles'
