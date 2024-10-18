@@ -14,7 +14,6 @@ const RegistrarFuncion = () => {
     const [fecha, setFecha] = useState('');
     const [boleto, setBoleto] = useState('');
     const [duracion, setDuracion] = useState('');
-
     const [mostrarFunciones, setMostrarFunciones] = useState(false);
     const [peliculas, setPeliculas] = useState([]);
     const [peliculaId, setPeliculaId] = useState(null);
@@ -32,7 +31,8 @@ const RegistrarFuncion = () => {
 
     const confirmarFunciones = (e) => {
         e.preventDefault();
-        if (!nombreFuncion || !horario || !boleto || !duracion || !fecha || !estado) {
+        // Validar campos antes de mostrar la confirmación
+        if (!nombreFuncion || !horario || !boleto || !fecha || (!peliculaId && !duracion)) {
             alert("Por favor, complete todos los campos");
             return;
         }
@@ -41,15 +41,11 @@ const RegistrarFuncion = () => {
 
     const handleChangeFecha = (e) => {
         setFecha(e.target.value);
-        console.log(fecha);
     };
 
     const handleClickHorario = (e) => {
         setHorario(e.target.innerText);
-        console.log(e.target.innerText);
     };
-
-
 
     const handleClickFuncion = (pelicula) => {
         setNombreFuncion(pelicula.titulo);
@@ -60,7 +56,6 @@ const RegistrarFuncion = () => {
     const handleClickCancelar = (e) => {
         e.preventDefault();
         setConfirmacionMostrarFunciones(!confirmacionMostrarFunciones);
-        console.log("Función Cancelada");
     };
 
     const handleMostrarFunciones = (e) => {
@@ -82,21 +77,22 @@ const RegistrarFuncion = () => {
                             {pelicula.titulo}
                         </button>
                     ))
-                ) : <></>}
+                ) : (
+                    <p>No hay películas registradas</p>
+                )}
             </div>
         );
     };
 
     const handleClickConfirmacion = (e) => {
-        
+        e.preventDefault();
 
-        if (!nombreFuncion || !horario || !boleto || !duracion || !fecha) {
+        if (!nombreFuncion || !horario || !boleto || !fecha || (!peliculaId && !duracion)) {
             alert("Por favor, complete todos los campos");
             return;
         }
 
         const hourInt = parseInt(horario.split(':')[0]);
-
         const nuevaFuncion = {
             hora: hourInt,
             precioBoleto: parseFloat(boleto),
@@ -104,21 +100,51 @@ const RegistrarFuncion = () => {
             estado: 'Programada',
         };
 
-        axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
-            .then(response => {
-                console.log("Función registrada exitosamente:", response.data);
-                setConfirmacionMostrarFunciones(false);
-                // Limpiar los campos del formulario después de la confirmación
-                setNombreFuncion('');
-                setHorario('');
-                setBoleto('');
-                setDuracion('');
-                setFecha('');
-            })
-            .catch(error => {
-                console.error("Error al registrar la función:", error);
-                alert("Hubo un error al registrar la función.");
-            });
+        if (peliculaId) {
+            // Se ha seleccionado una película existente
+            axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
+                .then(response => {
+                    console.log("Función registrada exitosamente:", response.data);
+                    setConfirmacionMostrarFunciones(false);
+                    resetForm();
+                })
+                .catch(error => {
+                    console.error("Error al registrar la función:", error);
+                    alert("Hubo un error al registrar la función.");
+                });
+        } else {
+            // No se ha seleccionado una película, se crea una nueva
+            const nuevaPelicula = {
+                titulo: nombreFuncion,
+                duracion: duracion,
+                // Agrega otros campos necesarios para la película
+            };
+
+            const funcionConPelicula = {
+                funcion: nuevaFuncion,
+                pelicula: nuevaPelicula,
+            };
+
+            axios.post('http://127.0.0.1:8080/api/funciones/registrar_funcion', funcionConPelicula)
+                .then(response => {
+                    console.log("Función y película registradas exitosamente:", response.data);
+                    setConfirmacionMostrarFunciones(false);
+                    resetForm();
+                })
+                .catch(error => {
+                    console.error("Error al registrar la función y película:", error);
+                    alert("Hubo un error al registrar la función y película.");
+                });
+        }
+    };
+
+    const resetForm = () => {
+        setNombreFuncion('');
+        setHorario('');
+        setFecha('');
+        setBoleto('');
+        setDuracion('');
+        setPeliculaId(null);
     };
 
     return (
@@ -128,9 +154,12 @@ const RegistrarFuncion = () => {
             <section className='registro-funcion'>
                 <form className='registro-funcion-form'>
                     <fieldset className='registro-funcion-form-nombre'>
-                        <label htmlFor="nombreFuncion">Nombre de la función</label>
+                        <label htmlFor="nombreFuncion">Nombre de la película</label>
                         <input
-                            onChange={(e) => setNombreFuncion(e.target.value)}
+                            onChange={(e) => {
+                                setNombreFuncion(e.target.value);
+                                setPeliculaId(null);
+                            }}
                             value={nombreFuncion}
                             className='input-text input-text-nombre'
                             id="nombreFuncion"
@@ -169,25 +198,28 @@ const RegistrarFuncion = () => {
                         />
                     </fieldset>
 
-                    <fieldset className='registro-funcion-form-duracion'>
-                        <label htmlFor="duracion">Duración</label>
-                        <input
-                            onChange={(e) => setDuracion(e.target.value)}
-                            value={duracion}
-                            id="duracion"
-                            type="text"
-                            className='input-text'
-                        />
-                        <span>Min</span>
-                    </fieldset>
+                    {/* Campos adicionales para nueva película */}
+                    {!peliculaId && (
+                        <>
+                            <fieldset className='registro-funcion-form-duracion'>
+                                <label htmlFor="duracion">Duración</label>
+                                <input
+                                    onChange={(e) => setDuracion(e.target.value)}
+                                    value={duracion}
+                                    id="duracion"
+                                    type="text"
+                                    className='input-text'
+                                />
+                                <span>Min</span>
+                            </fieldset>
+                            {/* Agrega otros campos necesarios */}
+                        </>
+                    )}
 
-                   
                     <fieldset className='registro-funcion-form-submit'>
                         <Link to="/"><button>Cancelar</button></Link>
                         <input type="submit" value="Siguiente" onClick={confirmarFunciones} />
                     </fieldset>
-
-                    
                 </form>
             </section>
 
@@ -198,7 +230,6 @@ const RegistrarFuncion = () => {
                     Horario={horario}
                     DuracionF={duracion}
                     FechaF={fecha}
-                    codigoFuncion={'123123'}
                     handleClickConfirmacion={handleClickConfirmacion}
                     handleClickCancelar={handleClickCancelar}
                 />
