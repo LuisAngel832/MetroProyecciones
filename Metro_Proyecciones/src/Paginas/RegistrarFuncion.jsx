@@ -7,56 +7,48 @@ import MiniMenuRegistrarFunciones from '../Conponentes/MiniMenuRegistrarFuncione
 import { Link } from 'react-router-dom';
 
 const RegistrarFuncion = () => {
+
     const [confirmacionMostrarFunciones, setConfirmacionMostrarFunciones] = useState(false);
     const [nombreFuncion, setNombreFuncion] = useState('');
     const [horario, setHorario] = useState('');
-    const [fecha, setFecha] = useState()
+    const [fecha, setFecha] = useState('');
     const [boleto, setBoleto] = useState('');
-    const [duracion, setDuracion] = useState();
+    const [duracion, setDuracion] = useState('');
     const [mostrarFunciones, setMostrarFunciones] = useState(false);
-    const [funciones, setFunciones] = useState([]);
-    const [peliculaId, setPeliculaId] = useState(1); 
-    const [id,setId] = useState() 
-
-
-
-
+    const [peliculas, setPeliculas] = useState([]);
+    const [peliculaId, setPeliculaId] = useState(null);
 
     useEffect(() => {
-        // Hacer la petición GET a la API para obtener las funciones
         axios.get('http://127.0.0.1:8080/api/peliculas/todas-peliculas')
             .then(response => {
-                // Guardar las funciones obtenidas en el estado
-                setFunciones(response.data);
-                setId(funciones.id)
-                console.log(response.data)
+                setPeliculas(response.data);
+                console.log(response.data);
             })
             .catch(err => {
-                console.error("Error al obtener las funciones: ", err);
+                console.error("Error al obtener las películas: ", err);
             });
     }, []);
 
-    const confirmarFunciones= (e) =>{
-        e.preventDefault()
-        setConfirmacionMostrarFunciones(!confirmacionMostrarFunciones)
-    }
+    const confirmarFunciones = (e) => {
+        e.preventDefault();
+        setConfirmacionMostrarFunciones(!confirmacionMostrarFunciones);
+    };
+
     const handleChangeFecha = (e) => {
         setFecha(e.target.value);
-        console.log(fecha)
+        console.log(fecha);
     };
-    
+
     const handleClickHorario = (e) => {
         setHorario(e.target.innerText);
         console.log(e.target.innerText);
     };
 
-    const handleClickFuncion = (funcion) => {
-        setNombreFuncion(funcion.titulo); // Asignar el nombre de la función al campo de nombre
-        setDuracion(funcion.duracion); // Asignar la duración de la función al campo de duración
-        setId(funcion.id)
+    const handleClickFuncion = (pelicula) => {
+        setNombreFuncion(pelicula.titulo);
+        setDuracion(pelicula.duracion);
+        setPeliculaId(pelicula.id);
     };
-
-    
 
     const handleClickCancelar = (e) => {
         e.preventDefault();
@@ -72,19 +64,19 @@ const RegistrarFuncion = () => {
     const FuncionesRegistradas = () => {
         return (
             <div className='lista-funciones'>
-                {funciones.length > 0 ? (
-                    funciones.map((funcion, index) => (
+                {peliculas.length > 0 ? (
+                    peliculas.map((pelicula, index) => (
                         <button
                             key={index}
-                            value={funcion.nombre}
+                            value={pelicula.titulo}
                             className='input-funciones'
-                            onClick={() => handleClickFuncion(funcion)} // Corregido
+                            onClick={() => handleClickFuncion(pelicula)}
                         >
-                            {funcion.titulo}
+                            {pelicula.titulo}
                         </button>
                     ))
                 ) : (
-                    <p>No hay funciones registradas</p>
+                    <p>No hay películas registradas</p>
                 )}
             </div>
         );
@@ -93,27 +85,24 @@ const RegistrarFuncion = () => {
     const handleClickConfirmacion = (e) => {
         e.preventDefault();
 
-        
         if (!nombreFuncion || !horario || !boleto || !duracion || !fecha) {
             alert("Por favor, complete todos los campos");
             return;
         }
 
-        // Datos que se enviarán en la solicitud POST
+        const hourInt = parseInt(horario.split(':')[0]);
+
         const nuevaFuncion = {
-            hora: horario,
-            precioBoleto: boleto,
+            hora: hourInt,
+            precioBoleto: parseFloat(boleto),
             fecha: fecha,
-            duracion: duracion,
-            estado: 'Programada', // Puedes cambiar el estado según tu lógica
+            estado: 'Programada',
         };
 
-        // Realizar la solicitud POST al backend para registrar la función con el ID de la película
-        axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}', nuevaFuncion)
+        axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
             .then(response => {
                 console.log("Función registrada exitosamente:", response.data);
-                
-                setConfirmacion(true); // Mostrar confirmación de éxito
+                setConfirmacionMostrarFunciones(false);
                 // Limpiar los campos del formulario después de la confirmación
                 setNombreFuncion('');
                 setHorario('');
@@ -126,7 +115,6 @@ const RegistrarFuncion = () => {
                 alert("Hubo un error al registrar la función.");
             });
     };
-    
 
     return (
         <>
@@ -135,14 +123,14 @@ const RegistrarFuncion = () => {
             <section className='registro-funcion'>
                 <form className='registro-funcion-form'>
                     <fieldset className='registro-funcion-form-nombre'>
-                        <label htmlFor="nombreFuncion">Nombre de la funcion</label>
+                        <label htmlFor="nombreFuncion">Nombre de la función</label>
                         <input
                             onChange={(e) => setNombreFuncion(e.target.value)}
-                            value={nombreFuncion} // Problema aquí
+                            value={nombreFuncion}
                             className='input-text input-text-nombre'
                             id="nombreFuncion"
                             type="text"
-                            placeholder="Nombre de la pelicula"
+                            placeholder="Nombre de la película"
                         />
                     </fieldset>
 
@@ -151,7 +139,7 @@ const RegistrarFuncion = () => {
                         <div className='container-mostrar-funciones'>
                             <input onChange={handleChangeFecha} type="date" className='input-fecha' />
                             <div className='funciones-registradas'>
-                                <input value="Mostrar Peliculas" onClick={handleMostrarFunciones} type='button' className='input-funciones-registradas' />
+                                <input value="Mostrar Películas" onClick={handleMostrarFunciones} type='button' className='input-funciones-registradas' />
                                 {mostrarFunciones && <FuncionesRegistradas />}
                             </div>
                         </div>
@@ -166,7 +154,7 @@ const RegistrarFuncion = () => {
                     </fieldset>
 
                     <fieldset className='registro-funcion-form-boleto'>
-                        <label htmlFor="costoBoleto">Costo De Boleto</label>
+                        <label htmlFor="costoBoleto">Costo Del Boleto</label>
                         <input
                             onChange={(e) => setBoleto(e.target.value)}
                             value={boleto}
@@ -177,7 +165,7 @@ const RegistrarFuncion = () => {
                     </fieldset>
 
                     <fieldset className='registro-funcion-form-duracion'>
-                        <label htmlFor="duracion">Duracion</label>
+                        <label htmlFor="duracion">Duración</label>
                         <input
                             onChange={(e) => setDuracion(e.target.value)}
                             value={duracion}
@@ -203,7 +191,6 @@ const RegistrarFuncion = () => {
                     DuracionF={duracion}
                     FechaF={fecha}
                     codigoFuncion={'123123'}
-                    id = {id}
                     handleClickConfirmacion={handleClickConfirmacion}
                     handleClickCancelar={handleClickCancelar}
                 />
