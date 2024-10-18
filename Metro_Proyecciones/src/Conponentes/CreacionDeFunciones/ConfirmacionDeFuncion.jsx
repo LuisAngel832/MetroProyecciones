@@ -5,7 +5,7 @@ const ConfirmacionDeFuncion = ({
     Horario,
     DuracionF,
     FechaF,
-    codigoFuncion,
+    id,
     handleClickConfirmacion,
     handleClickCancelar
 }) => {
@@ -35,7 +35,7 @@ const ConfirmacionDeFuncion = ({
                     </div >
                     <div className="confirmacion-funcion">
                         <p className='p-descripcion'>Codigo de funcion</p>
-                        <p className='p-datos'>{codigoFuncion}</p>
+                        <p className='p-datos'>{id}</p>
                     </div>
                     <div className="confirmacion-confirmar">
                         <button className='button-cancelar' onClick={handleClickCancelar}>Cancelar</button>

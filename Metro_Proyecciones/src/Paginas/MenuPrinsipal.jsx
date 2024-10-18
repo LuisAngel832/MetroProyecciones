@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const MenuPrinsipal = () => {
   return (
+    
     <>
       <section className="menu-prinsipal-flex">
         <img src={imagen} alt="logo" className="menu-prinsipal-logo" />
