@@ -17,7 +17,7 @@
     background-color: #001242;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: 300;
 }
 
@@ -202,6 +202,7 @@ label{
 .lista-funciones{
     position: absolute;
     width: 300px;
+    min-height: 0;
     max-height: 250px;
     overflow-y: auto;
     background-color: white;
@@ -237,11 +238,6 @@ label{
     
 }
 
-.lista-funciones{
-    height: 300px;
-    overflow-y: auto;
-    border-radius: 10px;
-}
 
 
 .input-funciones{
@@ -251,4 +247,9 @@ label{
     width: 100%;
     margin: 0;
     padding: 0;
+}
+
+.button-horario:focus {
+    border: none !important;
+    background-color:#0D3C4C !important;
 }

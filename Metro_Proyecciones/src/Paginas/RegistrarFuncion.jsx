@@ -14,6 +14,7 @@ const RegistrarFuncion = () => {
     const [fecha, setFecha] = useState('');
     const [boleto, setBoleto] = useState('');
     const [duracion, setDuracion] = useState('');
+
     const [mostrarFunciones, setMostrarFunciones] = useState(false);
     const [peliculas, setPeliculas] = useState([]);
     const [peliculaId, setPeliculaId] = useState(null);
@@ -31,6 +32,10 @@ const RegistrarFuncion = () => {
 
     const confirmarFunciones = (e) => {
         e.preventDefault();
+        if (!nombreFuncion || !horario || !boleto || !duracion || !fecha || !estado) {
+            alert("Por favor, complete todos los campos");
+            return;
+        }
         setConfirmacionMostrarFunciones(!confirmacionMostrarFunciones);
     };
 
@@ -43,6 +48,8 @@ const RegistrarFuncion = () => {
         setHorario(e.target.innerText);
         console.log(e.target.innerText);
     };
+
+
 
     const handleClickFuncion = (pelicula) => {
         setNombreFuncion(pelicula.titulo);
@@ -75,15 +82,13 @@ const RegistrarFuncion = () => {
                             {pelicula.titulo}
                         </button>
                     ))
-                ) : (
-                    <p>No hay películas registradas</p>
-                )}
+                ) : <></>}
             </div>
         );
     };
 
     const handleClickConfirmacion = (e) => {
-        e.preventDefault();
+        
 
         if (!nombreFuncion || !horario || !boleto || !duracion || !fecha) {
             alert("Por favor, complete todos los campos");
@@ -147,10 +152,10 @@ const RegistrarFuncion = () => {
 
                     <fieldset className='registro-funcion-form-horario'>
                         <label>Horario</label>
-                        <button onClick={handleClickHorario} type="button">10:00</button>
-                        <button onClick={handleClickHorario} type="button">12:00</button>
-                        <button onClick={handleClickHorario} type="button">14:00</button>
-                        <button onClick={handleClickHorario} type="button">16:00</button>
+                        <button className='button-horario' onClick={handleClickHorario} type="button">10:00</button>
+                        <button className='button-horario' onClick={handleClickHorario} type="button">12:00</button>
+                        <button className='button-horario' onClick={handleClickHorario} type="button">14:00</button>
+                        <button className='button-horario' onClick={handleClickHorario} type="button">16:00</button>
                     </fieldset>
 
                     <fieldset className='registro-funcion-form-boleto'>
@@ -176,10 +181,13 @@ const RegistrarFuncion = () => {
                         <span>Min</span>
                     </fieldset>
 
+                   
                     <fieldset className='registro-funcion-form-submit'>
                         <Link to="/"><button>Cancelar</button></Link>
                         <input type="submit" value="Siguiente" onClick={confirmarFunciones} />
                     </fieldset>
+
+                    
                 </form>
             </section>
 
