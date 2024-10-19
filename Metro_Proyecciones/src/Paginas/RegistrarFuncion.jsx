@@ -105,12 +105,17 @@ const RegistrarFuncion = () => {
             axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
                 .then(response => {
                     console.log("Función registrada exitosamente:", response.data);
+                    alert("¡Función registrada exitosamente!");
                     setConfirmacionMostrarFunciones(false);
                     resetForm();
                 })
                 .catch(error => {
-                    console.error("Error al registrar la función:", error);
-                    alert("Hubo un error al registrar la función.");
+                    if (error.response && error.response.status === 409) {
+                        alert(error.response.data); //mesnaje del servidor
+                    } else {
+                        console.error("Error al registrar la función:", error);
+                        alert("Hubo un error al registrar la función.");
+                    }
                 });
         } else {
             // No se ha seleccionado una película, se crea una nueva
