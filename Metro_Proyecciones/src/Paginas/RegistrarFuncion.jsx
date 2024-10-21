@@ -5,6 +5,7 @@ import './../assets/css/RegistrarFuncion.css';
 import ConfirmacionDeFuncion from '../Conponentes/CreacionDeFunciones/ConfirmacionDeFuncion';
 import MiniMenuRegistrarFunciones from '../Conponentes/MiniMenuRegistrarFunciones';
 import { Link } from 'react-router-dom';
+import MostrarAlerta from '../Conponentes/MostrarAlerta';
 
 const RegistrarFuncion = () => {
 
@@ -15,9 +16,11 @@ const RegistrarFuncion = () => {
     const [boleto, setBoleto] = useState('');
     const [duracion, setDuracion] = useState('');
     const [mostrarFunciones, setMostrarFunciones] = useState(false);
+    const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const [peliculas, setPeliculas] = useState([]);
     const [peliculaId, setPeliculaId] = useState(null);
-
+    const [mensje, setMensje] = useState('');
+ 
     useEffect(() => {
         axios.get('http://127.0.0.1:8080/api/peliculas/todas-peliculas')
             .then(response => {
@@ -31,9 +34,9 @@ const RegistrarFuncion = () => {
 
     const confirmarFunciones = (e) => {
         e.preventDefault();
-        // Validar campos antes de mostrar la confirmación
+    
         if (!nombreFuncion || !horario || !boleto || !fecha || (!peliculaId && !duracion)) {
-            alert("Por favor, complete todos los campos");
+            handleClickMostrarAlerta
             return;
         }
         setConfirmacionMostrarFunciones(!confirmacionMostrarFunciones);
@@ -47,10 +50,16 @@ const RegistrarFuncion = () => {
         setHorario(e.target.innerText);
     };
 
+    const handleClickMostrarAlerta = (mensaje) => {
+        setMensje(mensaje);
+        setMostrarAlerta(!mostrarAlerta);
+    };
+
     const handleClickFuncion = (pelicula) => {
         setNombreFuncion(pelicula.titulo);
         setDuracion(pelicula.duracion);
         setPeliculaId(pelicula.id);
+        setMostrarFunciones(false)
     };
 
     const handleClickCancelar = (e) => {
@@ -101,7 +110,7 @@ const RegistrarFuncion = () => {
         };
 
         if (peliculaId) {
-            // Se ha seleccionado una película existente
+            
             axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
                 .then(response => {
                     console.log("Función registrada exitosamente:", response.data);
@@ -111,18 +120,18 @@ const RegistrarFuncion = () => {
                 })
                 .catch(error => {
                     if (error.response && error.response.status === 409) {
-                        alert(error.response.data); //mesnaje del servidor
+                        alert(error.response.data); 
                     } else {
                         console.error("Error al registrar la función:", error);
                         alert("Hubo un error al registrar la función.");
                     }
                 });
         } else {
-            // No se ha seleccionado una película, se crea una nueva
+            
             const nuevaPelicula = {
                 titulo: nombreFuncion,
                 duracion: duracion,
-                // Agrega otros campos necesarios para la película
+                
             };
 
             const funcionConPelicula = {
@@ -187,9 +196,9 @@ const RegistrarFuncion = () => {
                     <fieldset className='registro-funcion-form-horario'>
                         <label>Horario</label>
                         <button className='button-horario' onClick={handleClickHorario} type="button">10:00</button>
-                        <button className='button-horario' onClick={handleClickHorario} type="button">12:00</button>
-                        <button className='button-horario' onClick={handleClickHorario} type="button">14:00</button>
+                        <button className='button-horario' onClick={handleClickHorario} type="button">13:00</button>
                         <button className='button-horario' onClick={handleClickHorario} type="button">16:00</button>
+                        <button className='button-horario' onClick={handleClickHorario} type="button">19:00</button>
                     </fieldset>
 
                     <fieldset className='registro-funcion-form-boleto'>
@@ -203,7 +212,7 @@ const RegistrarFuncion = () => {
                         />
                     </fieldset>
 
-                    {/* Campos adicionales para nueva película */}
+                    
                     {!peliculaId && (
                         <>
                             <fieldset className='registro-funcion-form-duracion'>
@@ -217,15 +226,21 @@ const RegistrarFuncion = () => {
                                 />
                                 <span>Min</span>
                             </fieldset>
-                            {/* Agrega otros campos necesarios */}
+                            
                         </>
                     )}
 
-                    <fieldset className='registro-funcion-form-submit'>
-                        <Link to="/"><button>Cancelar</button></Link>
-                        <input type="submit" value="Siguiente" onClick={confirmarFunciones} />
-                    </fieldset>
+                    
                 </form>
+                <div className='registro-funcion-form-submit'>
+                        <Link to="/" className='button-submit-cancelar'><input  value="Cancelar" type="button" /></Link>
+                        <input className='input-submit' type="submit" value="Siguiente" onClick={confirmarFunciones} />
+                        
+                </div>
+                <div>
+                    {mostrarAlerta && <MostrarAlerta mensaje={mensje}onClose={handleClickMostrarAlerta} />}
+                </div>
+              
             </section>
 
             {confirmacionMostrarFunciones && (

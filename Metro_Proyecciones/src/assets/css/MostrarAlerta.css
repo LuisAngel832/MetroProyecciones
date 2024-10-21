@@ -1,0 +1,44 @@
+/* Fondo que cubre toda la pantalla */
+.alerta-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Asegura que esté sobre todo */
+  }
+  
+  /* Contenedor de la alerta */
+  .alerta-contenido {
+    font-size: 2rem;
+    font-weight: 300;
+    background-color: #134767;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+  }
+  
+  /* Botón de cierre */
+  .alerta-cerrar {
+    font-size: 1.5rem;
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #262C3B;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .alerta-cerrar:hover {
+    background-color: #d32f2f;
+  }
+  
