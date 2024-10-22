@@ -119,8 +119,11 @@ const RegistrarFuncion = () => {
                     navigate('/funciones-registradas');
                 })
                 .catch(error => {
-                    if (error.response && error.response.status === 409) {
-                        alert(error.response.data);
+                    // Procesar el error cuando el código de estado sea 400
+                    if (error.response && error.response.status === 400) {
+                        alert("Error al registrar la función: " + error.response.data); // Mostrar el mensaje del servidor
+                    } else if (error.response && error.response.status === 409) {
+                        alert(error.response.data); // Conflicto por horario
                     } else {
                         console.error("Error al registrar la función:", error);
                         alert("Hubo un error al registrar la función.");
@@ -146,8 +149,13 @@ const RegistrarFuncion = () => {
                     navigate('/funciones-registradas');
                 })
                 .catch(error => {
-                    console.error("Error al registrar la función y película:", error);
-                    alert("Hubo un error al registrar la función y película.");
+                    // Procesar el error cuando el código de estado sea 400
+                    if (error.response && error.response.status === 400) {
+                        alert("Error al registrar la función: " + error.response.data); // Mostrar el mensaje del servidor
+                    } else {
+                        console.error("Error al registrar la función y película:", error);
+                        alert("Hubo un error al registrar la función y película.");
+                    }
                 });
         }
     };
