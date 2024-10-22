@@ -23,7 +23,7 @@ const FuncionesRegistradasDetalles = ({
                     </div>
                     <div className="confirmacion-horario">
                         <p className='p-descripcion'>Horario</p>
-                        <p className='p-datos'>{Horario}</p>
+                        <p className='p-datos'>{Horario} HRS</p>
                     </div>
                     <div className="confirmacion-Duracion">
                         <p className='p-descripcion'>Duracion</p>
@@ -38,8 +38,8 @@ const FuncionesRegistradasDetalles = ({
                         <p className='p-datos'>{codigoFuncion}</p>
                     </div>
                     <div className="confirmacion-confirmar">
-                        <button className='button-cancelar' onClick={handleClickCancelar}>Cancelar</button>
-                        <button className='button-confirmar' onClick={handleClickConfirmacion}>Confirmar</button>
+                        <button className='button-cancelar' onClick={handleClickCancelar}>Regresar</button>
+                        
                     </div>
                 </div>
             </section>

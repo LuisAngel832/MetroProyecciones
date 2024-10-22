@@ -24,7 +24,7 @@ const ConfirmacionDeFuncion = ({
                     </div>
                     <div className="confirmacion-horario">
                         <p className='p-descripcion'>Horario</p>
-                        <p className='p-datos'>{Horario}</p>
+                        <p className='p-datos'>{Horario} HRS</p>
                     </div>
                     <div className="confirmacion-Duracion">
                         <p className='p-descripcion'>Duracion</p>

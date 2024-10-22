@@ -61,7 +61,7 @@ const FuncionesRegistradas = () => {
   const RenglonFuncion = ({ funcion }) => {
     return (
       <tr>
-        <td>
+        <td className='tabla-detalles-id-td'>
           <div className='tabla-detalles-id'>
             <button onClick={() => mostrarDetallesFuncion(funcion)} className="btn">VER DETALLES</button> {funcion.pelicula.titulo} <br />ID: {funcion.id}
           </div>
