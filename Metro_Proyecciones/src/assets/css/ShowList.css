@@ -22,6 +22,10 @@
     letter-spacing: 1px;
 }
 
+.show-table tr{
+    cursor: pointer;
+}
+
 .show-table tr:hover {
     background-color: #333366; /* Color al pasar el mouse */
 }

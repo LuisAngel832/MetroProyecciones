@@ -31,6 +31,7 @@
 
 .menu-option {
     background: none;
+    width: 240px;
     color: white;
     border: none;
     padding: 15px 30px; /* Aumentamos el tamaño y el espacio de las opciones del menú */
@@ -41,4 +42,10 @@
 
 .menu-option:hover {
     background-color: rgba(97, 97, 116, 0.4); /* Color al pasar el mouse con mayor transparencia */
+}
+
+.Link{
+    padding: 0;
+    margin: 0;
+    width: auto;
 }

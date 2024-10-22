@@ -1,5 +1,5 @@
 import '../assets/css/Gestiondeboletos.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from '../Conponentes/header';
 import MiniMenu from '../Conponentes/MiniMenu';
 import ShowList from '../Conponentes/ShowList';
@@ -10,32 +10,92 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ConfirmationScreen from '../Conponentes/ConfirmationScreen';
 
 const Gestiondeboletos = () => {
-    const [showSearchBar, setShowSearchBar] = useState(false);
-    const [showCalendar, setShowCalendar] = useState(false);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [selectedSeats, setSelectedSeats] = useState([]); // Asientos seleccionados solo para cambiar el color, no para contar
+    const [mostrarBarraBusqueda, setMostrarBarraBusqueda] = useState(false);
+    const [mostrarCalendario, setMostrarCalendario] = useState(false);
+    const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
+    const [asientosSeleccionados, setAsientosSeleccionados] = useState([]); 
+    const [funciones, setFunciones] = useState([]); // Datos dinámicos
+    const [funcionSeleccionada, setFuncionSeleccionada] = useState(null); // Función seleccionada
+    const [asientosOcupados, setAsientosOcupados] = useState([]); // Asientos ocupados
+    const [asientosAComprar, setAsientosAComprar] = useState([]); 
+    const [textoBusqueda, setTextoBusqueda] = useState(''); // Estado para el texto de búsqueda
 
-    const shows = [
-        { title: 'The Roblox', date: '11-10-2024', time: '16:00 PM', availableSeats: 20 },
-        { title: 'The Furros', date: '12-10-2024', time: '19:00 PM', availableSeats: 48 },
-        { title: 'The Zotopia', date: '14-10-2024', time: '10:00 AM', availableSeats: 50 },
-    ];
+    const AsientosAComprar = (asiento) => {
+        if (asientosOcupados.includes(asiento)) return;
 
+        if (!asientosSeleccionados.includes(asiento)) {
+            setAsientosSeleccionados([...asientosSeleccionados, asiento]);
+        }
+    };
+
+    const obtenerAsientosOcupados = async (funcionId) => {
+        try {
+            const respuesta = await fetch(`http://localhost:8080/api/compra/asientos-ocupados/${funcionId}`);
+            if (!respuesta.ok) {
+                throw new Error('Error al obtener los asientos ocupados');
+            }
+            const asientosOcupados = await respuesta.json();
+            setAsientosOcupados(asientosOcupados);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const handleSetFuncionSeleccionada = (funcion) => {
+        setFuncionSeleccionada(funcion);
+        setAsientosSeleccionados([]); 
+        obtenerAsientosOcupados(funcion.id);
+        console.log(funcion);
+    };
+
+    const onConfirm = () => {
+        setMostrarConfirmacion(false);
+    };
+    
     const toggleSearchBar = () => {
-        setShowSearchBar(!showSearchBar);
+        setMostrarBarraBusqueda(prev => !prev);
+        // Cerrar el calendario si está abierto
+        if (mostrarCalendario) {
+            setMostrarCalendario(false);
+        }
     };
 
-    const toggleCalendar = () => {
-        setShowCalendar(!showCalendar);
-    };
+ 
 
     const handleNextClick = () => {
-        setShowConfirmation(true);
+        if (asientosSeleccionados.length > 0 && funcionSeleccionada) {
+            console.log("Función seleccionada:", funcionSeleccionada);
+            setMostrarConfirmacion(true);
+        } else {
+            alert("Por favor selecciona al menos un asiento y una función");
+        }
+    };
+    
+    const handleBack = () => {
+        setMostrarConfirmacion(false);
     };
 
-    const handleBack = () => {
-        setShowConfirmation(false);
-    };
+    useEffect(() => {
+        const obtenerFunciones = async () => {
+            try {
+                const respuesta = await fetch('http://localhost:8080/api/funciones/todas');
+                if (!respuesta.ok) {
+                    throw new Error('Error al obtener las funciones');
+                }
+                const data = await respuesta.json();
+                setFunciones(data);
+                console.log(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+        obtenerFunciones();
+    }, []);
+
+    // Filtrar funciones según el texto de búsqueda
+    const funcionesFiltradas = funciones.filter(funcion => 
+        funcion.pelicula.titulo.toLowerCase().includes(textoBusqueda.toLowerCase())
+    );
 
     return (
         <>
@@ -45,20 +105,23 @@ const Gestiondeboletos = () => {
             </div>
             <section className='gestion-boletos'>
                 <div className='gestion-boletos-contenido'>
-                    {/* Cartelera visual sin funcionalidad */}
                     <div className="gestion-boletos-showlist">
                         <div className="showlist-filters">
                             <button className="filter-button" onClick={toggleSearchBar}>Buscar Título</button>
-                            <button className="filter-button" onClick={toggleCalendar}>Buscar Fecha</button>
+                            
                         </div>
-                        {showSearchBar && (
+
+                        {mostrarBarraBusqueda && (
                             <input 
                                 type="text" 
                                 className="search-bar" 
                                 placeholder="Ingrese el título..." 
+                                value={textoBusqueda} // Controla el valor del input
+                                onChange={(e) => setTextoBusqueda(e.target.value)} // Actualiza el estado
                             />
                         )}
-                        {showCalendar && (
+
+                        {mostrarCalendario && (
                             <div className="datepicker-container">
                                 <DatePicker 
                                     selected={null}
@@ -67,30 +130,27 @@ const Gestiondeboletos = () => {
                                 />
                             </div>
                         )}
+
                         <ShowList 
-                            shows={shows} 
-                            selectedShow={null} 
-                            setSelectedShow={() => {}} // No se hace selección de funciones
+                            funciones={funcionesFiltradas} // Usa las funciones filtradas
+                            selectedShow={funcionSeleccionada} 
+                            handleSetFuncionSeleccionada={handleSetFuncionSeleccionada}
                         />
                     </div>
 
-                    {/* Selección de asientos */}
                     <div className="gestion-boletos-seat-selection-container">
                         <div className="seat-selection-info">
-                            {/* Número de asientos y precio en la misma fila */}
+                            <h1>{funcionSeleccionada ? funcionSeleccionada.pelicula.titulo : ""}</h1>
                             <div className="seat-selection-header">
-                                <h2>Número de Asientos:</h2>
-                                <h2 style={{ marginLeft: 'auto' }}>Precio del Boleto:</h2> {/* Alineado a la derecha */}
+                                <h2>Cantidad de Asientos: {asientosSeleccionados.length}</h2>
+                                <h2 style={{ marginLeft: 'auto' }}>Precio del Boleto: ${asientosSeleccionados.length * (funcionSeleccionada ? funcionSeleccionada.precioBoleto : 0)}</h2>
                             </div>
-                            {/* Botones de control de asientos */}
-                            <div className='seat-controls'>
-                                <button disabled>-</button> {/* Botones sin funcionalidad */}
-                                <button disabled>+</button>
-                            </div>
-                            {/* Mapa de asientos, mantiene el cambio de color */}
+                            
                             <SeatMap 
-                                selectedSeats={selectedSeats} 
-                                setSelectedSeats={setSelectedSeats} 
+                                asientosSeleccionados={asientosSeleccionados} 
+                                setAsientosSeleccionados={setAsientosSeleccionados} 
+                                asientosOcupados={asientosOcupados} 
+                                AsientosAComprar={AsientosAComprar}
                             />
                         </div>
                     </div>
@@ -98,16 +158,12 @@ const Gestiondeboletos = () => {
                 <ActionButtons onNext={handleNextClick} />
             </section>
 
-            {/* Ventana de confirmación sin datos */}
-            {showConfirmation && (
+            {mostrarConfirmacion && funcionSeleccionada && (
                 <ConfirmationScreen
-                    title={"Función no seleccionada"} 
-                    seats={[]} 
-                    time={"Hora no disponible"} 
-                    total={"$0.00"} 
-                    codes={["Sin código"]}
-                    onBack={handleBack} 
-                    onConfirm={() => alert('Compra confirmada')} 
+                    funcion={funcionSeleccionada}
+                    onConfirm={onConfirm}
+                    asientosSeleccionados={asientosSeleccionados}
+                    onBack={handleBack}
                 />
             )}
         </>

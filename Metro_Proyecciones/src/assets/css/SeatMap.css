@@ -1,4 +1,4 @@
-.seat-map-container {
+.contenedor-mapa-asientos {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,20 +6,20 @@
     gap: 10px;
 }
 
-.seat-row {
+.fila-asientos {
     display: flex;
     align-items: center;
     margin-bottom: 10px; /* Separación entre las filas de asientos */
 }
 
-.seat-row-label {
+.etiqueta-fila {
     width: 20px;
     margin-right: 10px;
     font-weight: bold;
     color: #ffffff;
 }
 
-.seat {
+.asiento {
     width: 30px;
     height: 30px;
     margin: 2px;
@@ -31,12 +31,16 @@
     transition: background-color 0.3s ease;
 }
 
-.seat:hover {
+.asiento:hover {
     background-color: #0077a7;
 }
 
-.seat.selected {
+.asiento.seleccionado {
     background-color: #c0392b; /* Color para asiento seleccionado */
+}
+
+.asiento.ocupado {
+    background-color: #555555; /* Color para asiento ocupado */
 }
 
 .pantalla {

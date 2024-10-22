@@ -6,6 +6,8 @@ import Estadisticas from '../Paginas/Estadisticas';
 import DatosHistoricos from '../Paginas/DatosHistoricos';
 import FuncionesRegistradas from '../Paginas/FuncionesRegistradas';
 import CancelarFuncion from '../Paginas/CancelarFuncion';
+import CancelarBoleto from '../Paginas/CancelarBoleto';
+
 const AppRouter = () => {
   return (
     <Router>
@@ -17,6 +19,8 @@ const AppRouter = () => {
         <Route path="/Datos-Historicos" element={<DatosHistoricos/>}/>
         <Route path="/funciones-registradas" element={<FuncionesRegistradas/>}/>
         <Route path="/cancelar-funcion" element={<CancelarFuncion/>}/>
+        <Route path="/cancelar-boleto" element={<CancelarBoleto/>}/>
+
       </Routes>
     </Router>
   );

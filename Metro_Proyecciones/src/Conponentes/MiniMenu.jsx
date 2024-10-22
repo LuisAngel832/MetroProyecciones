@@ -47,8 +47,9 @@ const MiniMenu = () => {
                 {isOpen && (
                     <div className="menu-options">
                         <button className="menu-option" onClick={handleVentaBoleto}>Venta de Boleto</button>
-                        <button className="menu-option" onClick={handleCancelarBoleto}>Cancelar Boleto</button>
-                        <Link to="/" className="menu-option">MENU</Link>
+                        <Link to="/cancelar-boleto" className="Link"><button className="menu-option">Cancelar Boleto</button></Link>
+
+                        <Link to="/" className="Link"><button className="menu-option">Menu</button></Link>
                     </div>
                 )}
             </div>

@@ -1,38 +1,53 @@
 import React from 'react';
 import '../assets/css/SeatMap.css';
-import movieNoSelectedSilla from '../assets/img/movieNoSelectecSilla.png';
-import movieSelectedSilla from '../assets/img/movieSelectedSilla.png'; 
+import sillaNoSeleccionada from '../assets/img/movieNoSelectecSilla.png';
+import sillaSeleccionada from '../assets/img/movieSelectedSilla.png';
+import sillaOcupada from '../assets/img/movieStatic.png';
 import pantalla from '../assets/img/pantalla.png';
 
-const SeatMap = ({ selectedSeats, setSelectedSeats }) => {
-    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    const columns = Array.from({ length: 11 }, (_, i) => i + 1);
+const MapaAsientos = ({ asientosSeleccionados = [], setAsientosSeleccionados, AsientosAComprar, asientosOcupados }) => {
+    const filas = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    const columnas = Array.from({ length: 11 }, (_, i) => i + 1);
 
-    const toggleSeatSelection = (seat) => {
-        if (selectedSeats.includes(seat)) {
-            setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+    const handleAsientoClick = (asiento) => {
+        // Evita deseleccionar los asientos ocupados
+        if (asientosOcupados.includes(asiento)) return;
+
+        if (asientosSeleccionados.includes(asiento)) {
+            // Si el asiento ya está seleccionado, lo deselecciona
+            setAsientosSeleccionados(asientosSeleccionados.filter(a => a !== asiento));
         } else {
-            setSelectedSeats([...selectedSeats, seat]);
+            // Si no está seleccionado, lo agrega a los seleccionados
+            setAsientosSeleccionados([...asientosSeleccionados, asiento]);
         }
     };
 
     return (
-        <div className="seat-map-container">
-            <img src={pantalla} alt="Pantalla de la silla" className='pantalla'/>
-            {rows.map((rowLabel) => (
-                <div key={rowLabel} className="seat-row">
-                    <div className="seat-row-label">{rowLabel}</div>
-                    {columns.map((colNumber) => {
-                        const seatId = `${rowLabel}${colNumber}`;
-                        const isSelected = selectedSeats.includes(seatId);
+        <div className="contenedor-mapa-asientos">
+            <img src={pantalla} alt="Pantalla del cine" className="pantalla" />
+            {filas.map((etiquetaFila) => (
+                <div key={etiquetaFila} className="fila-asientos">
+                    <div className="etiqueta-fila">{etiquetaFila}</div>
+                    {columnas.map((numeroColumna) => {
+                        const idAsiento = `${etiquetaFila}${numeroColumna}`;
+                        const estaSeleccionado = asientosSeleccionados?.includes(idAsiento);
+                        const estaOcupado = asientosOcupados?.includes(idAsiento);
 
                         return (
                             <img
-                                key={seatId}
-                                src={isSelected ? movieSelectedSilla : movieNoSelectedSilla} // Imagen según el estado
-                                alt={`Seat ${seatId}`}
-                                className={`seat ${isSelected ? 'selected' : ''}`}
-                                onClick={() => toggleSeatSelection(seatId)}
+                                key={idAsiento}
+                                src={
+                                    estaOcupado
+                                        ? sillaOcupada
+                                        : estaSeleccionado
+                                        ? sillaSeleccionada
+                                        : sillaNoSeleccionada
+                                }
+                                alt={`Asiento ${idAsiento}`}
+                                className={`asiento ${
+                                    estaSeleccionado ? 'seleccionado' : ''
+                                } ${estaOcupado ? 'ocupado' : ''}`}
+                                onClick={() => handleAsientoClick(idAsiento)} // Cambié aquí
                             />
                         );
                     })}
@@ -42,4 +57,4 @@ const SeatMap = ({ selectedSeats, setSelectedSeats }) => {
     );
 };
 
-export default SeatMap;
+export default MapaAsientos;
