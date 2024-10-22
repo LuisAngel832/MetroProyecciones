@@ -7,9 +7,9 @@ import '../assets/css/CancelarCompra.css';
 const CancelarBoleto = () => {
     const [compras, setCompras] = useState([]);
     const [mensaje, setMensaje] = useState('');
-    const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+    const [searchTerm, setSearchTerm] = useState(''); 
 
-    // Obtener las compras realizadas al cargar el componente
+    
     useEffect(() => {
         const obtenerCompras = async () => {
             try {
@@ -25,48 +25,48 @@ const CancelarBoleto = () => {
         obtenerCompras();
     }, []);
 
-    // Función para cancelar una compra
+    
     const cancelarCompra = async (idCompra) => {
-        console.log('ID de compra a cancelar:', idCompra); // Para depuración
+        console.log('ID de compra a cancelar:', idCompra); 
         try {
             const response = await axios.delete(`http://localhost:8080/api/compra/cancelar/${idCompra}`);
             
             if (response.status === 204) {
-                setMensaje('Compra cancelada exitosamente.');
-                // Actualizar la lista eliminando la compra cancelada
+                alert('Compra cancelada exitosamente.');
+                
                 setCompras((prevCompras) => prevCompras.filter((compra) => compra.idCompra !== idCompra));
             }
         } catch (error) {
             console.error('Error al cancelar la compra:', error);
             if (error.response) {
-                // Manejo de errores basado en el estado de respuesta
+                
                 if (error.response.status === 404) {
-                    setMensaje('La compra no existe.');
+                    alert('La compra no existe.');
                 } else {
-                    setMensaje('Error al cancelar la compra.');
+                    alert('Error al cancelar la compra.');
                 }
             } else {
-                setMensaje('Error al conectar con el servidor.');
+                alert('Error al conectar con el servidor.');
             }
         }
     };
 
     // Filtrar compras según el término de búsqueda
     const filteredCompras = compras.filter(compra =>
-        compra.idCompra.toString().includes(searchTerm) // Compara el ID de la compra con el término de búsqueda
+        compra.idCompra.toString().includes(searchTerm) 
     );
 
     return (
         <div className="cancelar-boleto-container">
             <MiniMenu />
             <Header nombreTitulo={'Cancelar Compra'} />
-            {mensaje && <p className="mensaje">{mensaje}</p>}
+            
             <div className="busqueda">
                     <input 
                         type="text" 
                         placeholder="Buscar por ID de compra..." 
                         value={searchTerm} 
-                        onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el término de búsqueda
+                        onChange={(e) => setSearchTerm(e.target.value)} 
                     />
             </div>
             <div className="main-content">
