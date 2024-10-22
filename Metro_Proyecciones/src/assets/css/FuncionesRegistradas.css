@@ -73,6 +73,9 @@ tr:hover {
     margin-bottom: 30px;
 }
 
+.tabla-detalles-id button {
+    margin-right: 10px;
+}
 .busqueda input {
     box-sizing: border-box;
     width: 200px; /* Mantener el ancho fijo */

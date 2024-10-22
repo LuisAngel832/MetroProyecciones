@@ -6,10 +6,9 @@ import ConfirmacionDeFuncion from '../Conponentes/CreacionDeFunciones/Confirmaci
 import MiniMenuRegistrarFunciones from '../Conponentes/MiniMenuRegistrarFunciones';
 import { Link } from 'react-router-dom';
 import MostrarAlerta from '../Conponentes/MostrarAlerta';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrarFuncion = () => {
-
     const [confirmacionMostrarFunciones, setConfirmacionMostrarFunciones] = useState(false);
     const [nombreFuncion, setNombreFuncion] = useState('');
     const [horario, setHorario] = useState('');
@@ -20,10 +19,9 @@ const RegistrarFuncion = () => {
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const [peliculas, setPeliculas] = useState([]);
     const [peliculaId, setPeliculaId] = useState(null);
+    const [mensje, setMensje] = useState(''); // Asegúrate de tener este estado definido
     const navigate = useNavigate();
 
-
- 
     useEffect(() => {
         axios.get('http://127.0.0.1:8080/api/peliculas/todas-peliculas')
             .then(response => {
@@ -37,9 +35,8 @@ const RegistrarFuncion = () => {
 
     const confirmarFunciones = (e) => {
         e.preventDefault();
-    
         if (!nombreFuncion || !horario || !boleto || !fecha || (!peliculaId && !duracion)) {
-            handleClickMostrarAlerta
+            handleClickMostrarAlerta("Por favor, complete todos los campos");
             return;
         }
         setConfirmacionMostrarFunciones(!confirmacionMostrarFunciones);
@@ -62,7 +59,7 @@ const RegistrarFuncion = () => {
         setNombreFuncion(pelicula.titulo);
         setDuracion(pelicula.duracion);
         setPeliculaId(pelicula.id);
-        setMostrarFunciones(false)
+        setMostrarFunciones(false);
     };
 
     const handleClickCancelar = (e) => {
@@ -98,12 +95,12 @@ const RegistrarFuncion = () => {
 
     const handleClickConfirmacion = (e) => {
         e.preventDefault();
-    
+
         if (!nombreFuncion || !horario || !boleto || !fecha || (!peliculaId && !duracion)) {
             alert("Por favor, complete todos los campos");
             return;
         }
-    
+
         const hourInt = parseInt(horario.split(':')[0]);
         const nuevaFuncion = {
             hora: hourInt,
@@ -111,7 +108,7 @@ const RegistrarFuncion = () => {
             fecha: fecha,
             estado: 'Programada',
         };
-    
+
         if (peliculaId) {
             axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
                 .then(response => {
@@ -134,12 +131,12 @@ const RegistrarFuncion = () => {
                 titulo: nombreFuncion,
                 duracion: duracion,
             };
-    
+
             const funcionConPelicula = {
                 funcion: nuevaFuncion,
                 pelicula: nuevaPelicula,
             };
-    
+
             axios.post('http://127.0.0.1:8080/api/funciones/registrar_funcion', funcionConPelicula)
                 .then(response => {
                     console.log("Función y película registradas exitosamente:", response.data);
@@ -154,7 +151,7 @@ const RegistrarFuncion = () => {
                 });
         }
     };
-    
+
     const resetForm = () => {
         setNombreFuncion('');
         setHorario('');
@@ -162,6 +159,22 @@ const RegistrarFuncion = () => {
         setBoleto('');
         setDuracion('');
         setPeliculaId(null);
+    };
+
+    const handleKeyPressBoleto = (e) => {
+        const char = String.fromCharCode(e.which);
+        // Permitir números y punto decimal
+        if (!/^[0-9.]$/.test(char) || (char === '.' && boleto.includes('.'))) {
+            e.preventDefault();
+        }
+    };
+
+    const handleKeyPressDuracion = (e) => {
+        const char = String.fromCharCode(e.which);
+        // Permitir solo números
+        if (!/^[0-9]$/.test(char)) {
+            e.preventDefault();
+        }
     };
 
     return (
@@ -208,6 +221,7 @@ const RegistrarFuncion = () => {
                         <label htmlFor="costoBoleto">Costo Del Boleto</label>
                         <input
                             onChange={(e) => setBoleto(e.target.value)}
+                            onKeyPress={handleKeyPressBoleto} // Agregar el manejador para validar la entrada
                             value={boleto}
                             id="costoBoleto"
                             type="text"
@@ -215,13 +229,13 @@ const RegistrarFuncion = () => {
                         />
                     </fieldset>
 
-                    
                     {!peliculaId && (
                         <>
                             <fieldset className='registro-funcion-form-duracion'>
                                 <label htmlFor="duracion">Duración</label>
                                 <input
                                     onChange={(e) => setDuracion(e.target.value)}
+                                    onKeyPress={handleKeyPressDuracion} // Agregar el manejador para validar la entrada
                                     value={duracion}
                                     id="duracion"
                                     type="text"
@@ -229,21 +243,16 @@ const RegistrarFuncion = () => {
                                 />
                                 <span>Min</span>
                             </fieldset>
-                            
                         </>
                     )}
-
-                    
                 </form>
                 <div className='registro-funcion-form-submit'>
-                        <Link to="/" className='button-submit-cancelar'><input  value="Cancelar" type="button" /></Link>
-                        <input className='input-submit' type="submit" value="Siguiente" onClick={confirmarFunciones} />
-                        
+                    <Link to="/" className='button-submit-cancelar'><input value="Cancelar" type="button" /></Link>
+                    <input className='input-submit' type="submit" value="Siguiente" onClick={confirmarFunciones} />
                 </div>
                 <div>
-                    {mostrarAlerta && <MostrarAlerta mensaje={mensje}onClose={handleClickMostrarAlerta} />}
+                    {mostrarAlerta && <MostrarAlerta mensaje={mensje} onClose={handleClickMostrarAlerta} />}
                 </div>
-              
             </section>
 
             {confirmacionMostrarFunciones && (
