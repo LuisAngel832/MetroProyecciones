@@ -17,7 +17,6 @@ h1 {
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-    
 }
 
 table {
@@ -33,7 +32,6 @@ table {
 }
 
 th, td {
-    
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #4f5b70;
@@ -43,7 +41,7 @@ tr:nth-child(even) {
     background-color: #606B89;
 }
 
-tr{
+tr {
     background-color: #404D71;
 }
 
@@ -58,27 +56,26 @@ tr:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 120px; /* Establecer un ancho fijo para el botón */
+    text-align: center; 
 }
 
 .btn:hover {
     background-color: #1a8ca9;
 }
 
-.tabla-detalles-id{
-    display: flex;
-    justify-content: space-between;
-}
 
-.busqueda{
+
+.busqueda {
     width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: flex-end; /* Cambiar a flex-end para alinear a la derecha */
     margin-bottom: 30px;
 }
 
-.busqueda input{
+.busqueda input {
     box-sizing: border-box;
-    width: 200px;
+    width: 200px; /* Mantener el ancho fijo */
     height: 45px;
     padding: 10px;
     border: none;
@@ -86,29 +83,25 @@ tr:hover {
     border-radius: 10px;
     margin-right: 10px;
     font-size: 1.2rem;
-
 }
 
-.busqueda input::placeholder{
+.busqueda input::placeholder {
     color: white;
 }
 
-.busqueda .titulo{
+.busqueda .titulo {
     padding-left: 60px;   
 }
 
-.icon{
+.icon {
     position: relative;
     left: 50px;
     font-size: 1.5rem;
 }
 
-.tabla-cabecera{
+.tabla-cabecera {
     background-color: #20305A;
-
 }
-
-
 
 @media (max-width: 768px) {
     .table-container {
@@ -119,4 +112,3 @@ tr:hover {
         padding: 10px;
     }
 }
-

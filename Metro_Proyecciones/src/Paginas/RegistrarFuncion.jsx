@@ -6,6 +6,7 @@ import ConfirmacionDeFuncion from '../Conponentes/CreacionDeFunciones/Confirmaci
 import MiniMenuRegistrarFunciones from '../Conponentes/MiniMenuRegistrarFunciones';
 import { Link } from 'react-router-dom';
 import MostrarAlerta from '../Conponentes/MostrarAlerta';
+import {  useNavigate } from 'react-router-dom';
 
 const RegistrarFuncion = () => {
 
@@ -19,7 +20,9 @@ const RegistrarFuncion = () => {
     const [mostrarAlerta, setMostrarAlerta] = useState(false);
     const [peliculas, setPeliculas] = useState([]);
     const [peliculaId, setPeliculaId] = useState(null);
-    const [mensje, setMensje] = useState('');
+    const navigate = useNavigate();
+
+
  
     useEffect(() => {
         axios.get('http://127.0.0.1:8080/api/peliculas/todas-peliculas')
@@ -95,12 +98,12 @@ const RegistrarFuncion = () => {
 
     const handleClickConfirmacion = (e) => {
         e.preventDefault();
-
+    
         if (!nombreFuncion || !horario || !boleto || !fecha || (!peliculaId && !duracion)) {
             alert("Por favor, complete todos los campos");
             return;
         }
-
+    
         const hourInt = parseInt(horario.split(':')[0]);
         const nuevaFuncion = {
             hora: hourInt,
@@ -108,42 +111,42 @@ const RegistrarFuncion = () => {
             fecha: fecha,
             estado: 'Programada',
         };
-
+    
         if (peliculaId) {
-            
             axios.post(`http://127.0.0.1:8080/api/funciones/registrar_funcion_pelicula?idPelicula=${peliculaId}`, nuevaFuncion)
                 .then(response => {
                     console.log("Función registrada exitosamente:", response.data);
                     alert("¡Función registrada exitosamente!");
                     setConfirmacionMostrarFunciones(false);
                     resetForm();
+                    navigate('/funciones-registradas');
                 })
                 .catch(error => {
                     if (error.response && error.response.status === 409) {
-                        alert(error.response.data); 
+                        alert(error.response.data);
                     } else {
                         console.error("Error al registrar la función:", error);
                         alert("Hubo un error al registrar la función.");
                     }
                 });
         } else {
-            
             const nuevaPelicula = {
                 titulo: nombreFuncion,
                 duracion: duracion,
-                
             };
-
+    
             const funcionConPelicula = {
                 funcion: nuevaFuncion,
                 pelicula: nuevaPelicula,
             };
-
+    
             axios.post('http://127.0.0.1:8080/api/funciones/registrar_funcion', funcionConPelicula)
                 .then(response => {
                     console.log("Función y película registradas exitosamente:", response.data);
+                    alert("¡Función y película registradas exitosamente!");
                     setConfirmacionMostrarFunciones(false);
                     resetForm();
+                    navigate('/funciones-registradas');
                 })
                 .catch(error => {
                     console.error("Error al registrar la función y película:", error);
@@ -151,7 +154,7 @@ const RegistrarFuncion = () => {
                 });
         }
     };
-
+    
     const resetForm = () => {
         setNombreFuncion('');
         setHorario('');

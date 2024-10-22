@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MenuPrinsipal from '../Paginas/MenuPrinsipal';
 import RegistrarFuncion from '../Paginas/RegistrarFuncion';
 import Gestiondeboletos from '../Paginas/Gestiondeboletos';
@@ -7,6 +7,7 @@ import DatosHistoricos from '../Paginas/DatosHistoricos';
 import FuncionesRegistradas from '../Paginas/FuncionesRegistradas';
 import CancelarFuncion from '../Paginas/CancelarFuncion';
 import CancelarBoleto from '../Paginas/CancelarBoleto';
+
 
 const AppRouter = () => {
   return (

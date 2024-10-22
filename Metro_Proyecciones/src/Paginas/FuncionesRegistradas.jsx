@@ -7,22 +7,26 @@ import MiniMenuRegistrarFunciones from '../Conponentes/MiniMenuRegistrarFuncione
 import RegistrarFuncionDetalles from '../Conponentes/CreacionDeFunciones/FuncionesRegistradasDetalles';
 
 const FuncionesRegistradas = () => {
-  // Estado para almacenar las funciones obtenidas
   const [funciones, setFunciones] = useState([]);
-  // Estado para controlar la visualización de detalles
   const [mostrarDetalles, setMostrarDetalles] = useState(false);
   const [funcionSeleccionada, setFuncionSeleccionada] = useState(null);
+  
+  // Estados para búsqueda
+  const [tituloBuscado, setTituloBuscado] = useState('');
+  const [fechaBuscada, setFechaBuscada] = useState('');
 
-  // Obtener las funciones al montar el componente
   useEffect(() => {
     const obtenerFunciones = async () => {
       try {
-        const respuesta = await fetch('http://localhost:8080/api/funciones/todas'); // Asegúrate de que esta URL sea correcta
+        const respuesta = await fetch('http://localhost:8080/api/funciones/todas');
         if (!respuesta.ok) {
           throw new Error('Error al obtener las funciones');
         }
         const data = await respuesta.json();
-        setFunciones(data);
+
+        // Ordenar las funciones por fecha
+        const funcionesOrdenadas = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+        setFunciones(funcionesOrdenadas);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -31,26 +35,29 @@ const FuncionesRegistradas = () => {
     obtenerFunciones();
   }, []);
 
-  // Función para mostrar los detalles de una función
+  // Filtrar funciones según título y fecha
+  const funcionesFiltradas = funciones.filter((funcion) => {
+    const tituloCoincide = funcion.pelicula.titulo.toLowerCase().includes(tituloBuscado.toLowerCase());
+    const fechaCoincide = fechaBuscada ? funcion.fecha === fechaBuscada : true;
+    return tituloCoincide && fechaCoincide;
+  });
+
   const mostrarDetallesFuncion = (funcion) => {
     setFuncionSeleccionada(funcion);
     setMostrarDetalles(true);
   };
  
-  // Función para cerrar la vista de detalles
   const cancelarMostrarDetalles = () => {
     setMostrarDetalles(false);
     setFuncionSeleccionada(null);
   };
 
-  // Función para calcular el porcentaje de ocupación
   const calcularPorcentajeOcupacion = (funcion) => {
     const totalAsientos = 100; // Cambia este valor según tu lógica
     const boletosVendidos = funcion.boletosVendidos.length;
-    return ((boletosVendidos / totalAsientos) * 100).toFixed(2) + '%';
+    return ((boletosVendidos / totalAsientos) * 91).toFixed(2) + '%';
   };
 
-  // Componente para cada fila de la tabla
   const RenglonFuncion = ({ funcion }) => {
     return (
       <tr>
@@ -74,9 +81,19 @@ const FuncionesRegistradas = () => {
       <section className="busqueda">
         <div>
           <span className='icon'><Icon icon={faMagnifyingGlass} /></span>
-          <input className="titulo" type="text" placeholder='TITULO' />
+          <input 
+            className="titulo" 
+            type="text" 
+            placeholder='TITULO' 
+            value={tituloBuscado}
+            onChange={(e) => setTituloBuscado(e.target.value)}
+          />
         </div>
-        <input type="date" placeholder='fecha' />
+        <input 
+          type="date" 
+          value={fechaBuscada} 
+          onChange={(e) => setFechaBuscada(e.target.value)}
+        />
       </section>
       <div className="table-container">
         <h1>FUNCIONES REGISTRADAS</h1>
@@ -91,7 +108,7 @@ const FuncionesRegistradas = () => {
             </tr>
           </thead>
           <tbody>
-            {funciones.map((funcion) => (
+            {funcionesFiltradas.map((funcion) => (
               <RenglonFuncion key={funcion.id} funcion={funcion} />
             ))}
           </tbody>

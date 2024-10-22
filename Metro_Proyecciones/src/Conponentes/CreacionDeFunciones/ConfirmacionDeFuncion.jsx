@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import '../../assets/css/confirmacionDeFuncion.css'
 const ConfirmacionDeFuncion = ({
     nombreFuncion,
@@ -33,13 +34,10 @@ const ConfirmacionDeFuncion = ({
                         <p className='p-descripcion'>Fecha</p>
                         <p className='p-datos'>{FechaF}</p>
                     </div >
-                    <div className="confirmacion-funcion">
-                        <p className='p-descripcion'>Codigo de funcion</p>
-                        <p className='p-datos'>{id}</p>
-                    </div>
+
                     <div className="confirmacion-confirmar">
                         <button className='button-cancelar' onClick={handleClickCancelar}>Cancelar</button>
-                        <button className='button-confirmar' onClick={handleClickConfirmacion}>Confirmar</button>
+                       <button className='button-confirmar' onClick={handleClickConfirmacion}>Confirmar</button>
                     </div>
                 </div>
             </section>

@@ -16,10 +16,10 @@ const MiniMenuRegistrarFunciones = () => {
             </button>
             {isOpen && (
                 <div className="menu-options">
-                    <Link to="/registrar-funcion" className="menu-option">Registrar Funciones</Link>
-                    <Link to="/cancelar-funcion" className="menu-option">Cancelar Funciones</Link>
-                    <Link to="/funciones-registradas" className="menu-option">Funciones Registradas</Link>
-                    <Link to="/" className="menu-option">Menu</Link>
+                    <Link to="/registrar-funcion" className="Link"><button className='menu-option'>Registrar Funciones</button></Link>
+                    <Link to="/cancelar-funcion" className="Link"><button className='menu-option'>Cancelar Funciones</button></Link>
+                    <Link to="/funciones-registradas" className="Link"><button className='menu-option'>Funciones Registradas</button></Link>
+                    <Link to="/" className='Link'><button className='menu-option'>Menu</button></Link>
                 </div>
             )}
         </div>
