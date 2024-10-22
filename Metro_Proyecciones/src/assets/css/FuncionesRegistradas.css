@@ -35,6 +35,7 @@ th, td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #4f5b70;
+    width: 25%; /* Ancho igualitario para todas las columnas */
 }
 
 tr:nth-child(even) {
@@ -57,6 +58,7 @@ tr:hover {
     border-radius: 5px;
     cursor: pointer;
     width: 120px; /* Establecer un ancho fijo para el botón */
+    height: 50px;
     text-align: center; 
 }
 
@@ -75,6 +77,15 @@ tr:hover {
 
 .tabla-detalles-id button {
     margin-right: 10px;
+}
+
+.tabla-detalles-id{
+    display: flex;
+    justify-content: space-between;
+}
+
+.tabla-detalles-id-td{
+    width: 200px;
 }
 .busqueda input {
     box-sizing: border-box;

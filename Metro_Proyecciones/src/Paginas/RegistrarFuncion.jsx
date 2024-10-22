@@ -163,7 +163,7 @@ const RegistrarFuncion = () => {
 
     const handleKeyPressBoleto = (e) => {
         const char = String.fromCharCode(e.which);
-        // Permitir números y punto decimal
+        
         if (!/^[0-9.]$/.test(char) || (char === '.' && boleto.includes('.'))) {
             e.preventDefault();
         }
@@ -221,7 +221,7 @@ const RegistrarFuncion = () => {
                         <label htmlFor="costoBoleto">Costo Del Boleto</label>
                         <input
                             onChange={(e) => setBoleto(e.target.value)}
-                            onKeyPress={handleKeyPressBoleto} // Agregar el manejador para validar la entrada
+                            onKeyPress={handleKeyPressBoleto} 
                             value={boleto}
                             id="costoBoleto"
                             type="text"
@@ -235,7 +235,7 @@ const RegistrarFuncion = () => {
                                 <label htmlFor="duracion">Duración</label>
                                 <input
                                     onChange={(e) => setDuracion(e.target.value)}
-                                    onKeyPress={handleKeyPressDuracion} // Agregar el manejador para validar la entrada
+                                    onKeyPress={handleKeyPressDuracion} 
                                     value={duracion}
                                     id="duracion"
                                     type="text"
