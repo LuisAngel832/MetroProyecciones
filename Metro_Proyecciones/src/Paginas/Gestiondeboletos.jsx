@@ -143,7 +143,7 @@ const Gestiondeboletos = () => {
                             <h1>{funcionSeleccionada ? funcionSeleccionada.pelicula.titulo : ""}</h1>
                             <div className="seat-selection-header">
                                 <h2>Cantidad de Asientos: {asientosSeleccionados.length}</h2>
-                                <h2 style={{ marginLeft: 'auto' }}>Precio del Boleto: ${asientosSeleccionados.length * (funcionSeleccionada ? funcionSeleccionada.precioBoleto : 0)}</h2>
+                                <h2 style={{ marginLeft: 'auto' }}>Precio del Boleto: {funcionSeleccionada ? funcionSeleccionada.precioBoleto : 0}</h2>
                             </div>
                             
                             <SeatMap 
