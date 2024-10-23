@@ -183,13 +183,21 @@ label{
 
 .cancelar-funcion-botones{
     position: relative;
-    left: 32%;
+    left: 28%;
     margin-top: 40px;
-}
-
-.cancelar-funcion-botones{
+    
+    width: 400px;
     display: flex;
     justify-content: space-between;
+    height: 60px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    
+}
+
+.cancelar-funcion-botones button{
+    width: 150px;
+    
 }
 
 .funciones-mostrar-funciones{
