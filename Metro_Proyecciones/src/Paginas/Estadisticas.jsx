@@ -58,10 +58,7 @@ const Estadisticas = () => {
                         <p>INICIO DE DATOS</p>
                         <p>14/10/2024</p>
                     </div>
-                    <div className="fecha-item">
-                        <p>FIN DE DATOS</p>
-                        <p>28/10/2024</p>
-                    </div>
+                    
                     <div className="fecha-item">
                         <p>FECHA ACTUAL</p>
                         <p>{new Date().toLocaleDateString()}</p>

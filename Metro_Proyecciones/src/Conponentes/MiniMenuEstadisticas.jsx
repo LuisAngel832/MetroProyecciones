@@ -16,9 +16,9 @@ const MiniMenuEstadisticas = () => {
             </button>
             {isOpen && (
                 <div className="menu-options">
-                    <Link to="/estadisticas" className="menu-option">ULTIMAS DOS SEMANAS</Link>
-                    <Link to="/datos-historicos" className="menu-option">DATOS HISTORICOS</Link>
-                    <Link to="/" className="menu-option">MENU</Link>
+                    <Link to="/estadisticas" className="Link"><button className='menu-option'>Ultimas dos semanas</button></Link>
+                    <Link to="/datos-historicos" className="Link"><button className='menu-option'>Datos históricos</button></Link>
+                    <Link to="/" className="Link"><button className='menu-option'>Menu</button></Link>
                 </div>
             )}
         </div>
